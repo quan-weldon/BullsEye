@@ -10,25 +10,35 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var currentValue: Int = 0
+    var sliderValue = 0
     @IBOutlet weak var slider: UISlider!
+    var targetValue = 0
     @IBOutlet weak var targetLabel: UILabel!
-    var targetValue: Int = 0
+    var score = 0
+    @IBOutlet weak var scoreLabel: UILabel!
+    var round = 0
+    @IBOutlet weak var roundLabel: UILabel!
+    let MAX = 100
+    var previousValue = 0
+    var currentValue = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        currentValue = lroundf(slider.value)
+        sliderValue = lroundf(slider.value)
         startNewRound()
     }
 
     func updateLabels() {
         targetLabel.text = String(targetValue)
+        scoreLabel.text = String(score)
+        roundLabel.text = String(round)
     }
 
     func startNewRound() {
-        targetValue = Int(arc4random_uniform(100)) + 1
-        currentValue = 50
-        slider.value = Float(currentValue)
+        round += 1
+        targetValue = Int(arc4random_uniform(UInt32(MAX))) + 1
+        sliderValue = 50
+        slider.value = Float(sliderValue)
         updateLabels()
     }
 
@@ -41,21 +51,62 @@ class ViewController: UIViewController {
         print("The value of the slider is now: \(slider.value)")
 
         // Update the current value of the slider
-        currentValue = lroundf(slider.value)
+        sliderValue = lroundf(slider.value)
     }
 
     @IBAction func showAlert() {
 
-        let message = "The value of the slider is: \(currentValue)" +
-        "\nThe target value is: \(targetValue)"
+        let difference = abs(sliderValue - targetValue)
+        var points = MAX - difference
+
+        let alertTitle: String
+        var message: String
+        let actionTitle: String
+
+        switch difference {
+        case 0:
+            alertTitle = "Perfect Score! 😃"
+            message = "You scored 💯 points!"
+            actionTitle = "Awesome!"
+        case 1...5:
+            alertTitle = "Very Close!"
+            message = "You scored \(points) points"
+            actionTitle = "Getting Closer"
+
+        case 6...10:
+            alertTitle = "You Almost Had It!"
+            message = "You scored \(points) points"
+            actionTitle = "Do Better"
+        default:
+            alertTitle = "Not Even Close...😕"
+            message = "You only scored \(points) points"
+            actionTitle = "Do Better"
+        }
+
+        // TODO: Add bonus points above
+        // Add bonus points if user scores 100 twice in a row
+        if round == 1 {
+            previousValue = points
+            currentValue = points
+        } else {
+            previousValue = currentValue
+            currentValue = points
+        }
+        if previousValue == MAX && currentValue == MAX {
+            points += 100
+            message += " 100 Bonus Points For Back To Back 💯's!"
+        }
+
+        // Update score
+        score += points
 
         let alert = UIAlertController(
-            title: "Hello, Word",
+            title: alertTitle,
             message: message,
             preferredStyle: .alert
         )
 
-        let action = UIAlertAction(title: "Awesome", style: .default, handler: nil)
+        let action = UIAlertAction(title: actionTitle, style: .default, handler: nil)
 
         alert.addAction(action)
 
