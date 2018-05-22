@@ -28,6 +28,12 @@ class ViewController: UIViewController {
         startNewRound()
     }
 
+    @IBAction func startNewGame() {
+        score = 0
+        round = 0
+        startNewRound()
+    }
+
     func updateLabels() {
         targetLabel.text = String(targetValue)
         scoreLabel.text = String(score)
@@ -83,7 +89,6 @@ class ViewController: UIViewController {
             actionTitle = "Do Better"
         }
 
-        // TODO: Add bonus points above
         // Add bonus points if user scores 100 twice in a row
         if round == 1 {
             previousValue = points
@@ -106,14 +111,18 @@ class ViewController: UIViewController {
             preferredStyle: .alert
         )
 
-        let action = UIAlertAction(title: actionTitle, style: .default, handler: nil)
+        let action = UIAlertAction(
+            title: actionTitle,
+            style: .default,
+            handler: {
+            action in
+            self.startNewRound()
+            }
+        )
 
         alert.addAction(action)
 
         present(alert, animated: true, completion: nil)
-
-        // Start new round after user makes a guess
-        startNewRound()
     }
 
 
