@@ -31,5 +31,4 @@ class AboutViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
 
-
 }

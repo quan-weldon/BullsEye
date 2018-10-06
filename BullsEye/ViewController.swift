@@ -131,9 +131,9 @@ class ViewController: UIViewController {
             title: actionTitle,
             style: .default,
             handler: {
-            action in
-            self.startNewRound()
-            }
+                _ in
+                self.startNewRound()
+        	}
         )
 
         alert.addAction(action)
@@ -141,6 +141,4 @@ class ViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
 
-
 }
-
