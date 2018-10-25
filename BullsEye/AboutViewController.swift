@@ -19,6 +19,7 @@ class AboutViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // This will utilize the BullsEye.html file to import the AboutMe page
         if let url = Bundle.main.url(forResource: "BullsEye", withExtension: "html") {
             if let htmlData = try? Data(contentsOf: url) {
                 let baseURL = URL(fileURLWithPath: Bundle.main.bundlePath)
