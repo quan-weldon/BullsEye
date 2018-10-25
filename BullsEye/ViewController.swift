@@ -98,11 +98,11 @@ class ViewController: UIViewController {
         case 6...10:
             alertTitle = "You Almost Had It!"
             message = "You scored \(points) points"
-            actionTitle = "Do Better"
+            actionTitle = "You can do Better"
         default:
             alertTitle = "Not Even Close...😕"
             message = "You only scored \(points) points"
-            actionTitle = "Do Better"
+            actionTitle = "You can do Better"
         }
 
         // Add bonus points if user scores 100 twice in a row
@@ -115,7 +115,7 @@ class ViewController: UIViewController {
         }
         if previousValue == MAX && currentValue == MAX {
             points += 100
-            message += " 100 Bonus Points For Back To Back 💯's!"
+            message += " 200 Bonus Points For Back To Back 💯 scores!"
         }
 
         // Update score
@@ -133,7 +133,7 @@ class ViewController: UIViewController {
             handler: {
                 _ in
                 self.startNewRound()
-        	}
+        }
         )
 
         alert.addAction(action)
